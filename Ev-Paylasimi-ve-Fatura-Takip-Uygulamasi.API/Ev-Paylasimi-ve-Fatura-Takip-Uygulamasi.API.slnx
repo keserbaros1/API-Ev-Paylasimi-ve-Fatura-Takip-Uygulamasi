@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Core/Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Core.csproj" />
+  <Project Path="../Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Repoitory/Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Repoitory.csproj" />
+  <Project Path="../Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Service/Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Service.csproj" />
+  <Project Path="Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.API.csproj" />
+</Solution>

@@ -1,0 +1,6 @@
+@Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API_HostAddress = http://localhost:5014
+
+GET {{Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
