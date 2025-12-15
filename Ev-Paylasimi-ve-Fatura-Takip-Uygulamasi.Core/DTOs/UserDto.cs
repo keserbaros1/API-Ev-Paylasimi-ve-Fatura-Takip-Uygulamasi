@@ -9,6 +9,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs
     {
         public required string Name { get; set; }
         public required string Email { get; set; }
+        public List<Expense> Expense { get; set; }
         public List<ExpenseShare> ExpenseShares { get; set; }
         public List<HouseMember> HouseMembers { get; set; }
         public List<Payment> Payments { get; set; }

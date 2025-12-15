@@ -22,4 +22,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Repoitory\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Repoitory.csproj" />
+  </ItemGroup>
+
 </Project>

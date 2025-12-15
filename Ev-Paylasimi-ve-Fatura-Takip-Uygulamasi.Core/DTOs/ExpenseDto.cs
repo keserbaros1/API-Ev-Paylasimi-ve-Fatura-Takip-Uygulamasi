@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs
 {
-    public class ExpensesDto: BaseDto
+    public class ExpenseDto: BaseDto
     {
         public required int HouseId { get; set; }
         public required int UserId { get; set; }

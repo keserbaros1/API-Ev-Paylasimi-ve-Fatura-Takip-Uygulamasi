@@ -11,7 +11,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs
         public string? Description { get; set; }
         public required string Address { get; set; }
 
-        public List<Expenses> Expenses { get; set; }
+        public List<Expense> Expense { get; set; }
         public List<HouseMember> HouseMembers { get; set; }
         public List<Payment> Payments { get; set; }
     }

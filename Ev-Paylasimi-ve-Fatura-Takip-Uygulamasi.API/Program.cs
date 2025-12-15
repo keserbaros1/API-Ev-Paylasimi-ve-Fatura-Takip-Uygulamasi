@@ -1,3 +1,7 @@
+using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +17,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+       x.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"), option =>
+    {
+        option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+    });
+
+});
+
 
 var app = builder.Build();
 

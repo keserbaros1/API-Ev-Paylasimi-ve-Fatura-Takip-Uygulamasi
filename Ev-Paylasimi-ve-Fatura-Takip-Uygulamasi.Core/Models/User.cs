@@ -11,6 +11,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models
 
         public required byte[] PasswordSalt { get; set; }
         public required byte[] PasswordHash { get; set; }
+        public ICollection<Expense> Expense { get; set; }
         public ICollection<ExpenseShare> ExpenseShares { get; set; }
         public ICollection<HouseMember> HouseMembers { get; set; }
         public ICollection<Payment> Payments { get; set; }
