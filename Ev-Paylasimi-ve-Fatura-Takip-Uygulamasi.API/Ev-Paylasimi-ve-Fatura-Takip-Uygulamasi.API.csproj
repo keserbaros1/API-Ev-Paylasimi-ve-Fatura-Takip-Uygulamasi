@@ -20,9 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Middlewares\" />
     <Folder Include="Content\" />
-    <Folder Include="Filters\" />
   </ItemGroup>
 
   <ItemGroup>

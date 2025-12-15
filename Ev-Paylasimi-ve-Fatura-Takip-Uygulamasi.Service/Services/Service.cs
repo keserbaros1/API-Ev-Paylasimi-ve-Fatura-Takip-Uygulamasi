@@ -28,6 +28,11 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
             await _unitOfWorks.CommitAsync();
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _repository.AnyAsync(expression);
+        }
+
         public void ChangeStatus(T entity)
         {
             entity.UpdateDate = DateTime.Now;
