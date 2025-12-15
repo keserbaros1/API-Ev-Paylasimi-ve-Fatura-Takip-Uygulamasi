@@ -13,11 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Core\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Core.csproj" />
   </ItemGroup>
 
