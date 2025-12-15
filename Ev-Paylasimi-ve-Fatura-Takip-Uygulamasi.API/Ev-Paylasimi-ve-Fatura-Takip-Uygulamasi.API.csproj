@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Repoitory\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Repoitory.csproj" />
+    <ProjectReference Include="..\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Service\Ev-Paylasimi-ve-Fatura-Takip-Uygulamasi.Service.csproj" />
   </ItemGroup>
 
 </Project>
