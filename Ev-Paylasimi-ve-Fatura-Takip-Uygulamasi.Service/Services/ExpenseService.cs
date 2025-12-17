@@ -15,5 +15,11 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
         {
             _expenseRepository = expenseRepository;
         }
+
+        public IQueryable<Expense> GetByHouse(int houseId)
+        {
+            return _expenseRepository.GetByHouse(houseId);
+
+        }
     }
 }

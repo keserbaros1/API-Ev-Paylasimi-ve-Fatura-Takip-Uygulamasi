@@ -15,5 +15,15 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
         {
             _paymentService = paymentService;
         }
+
+        public IQueryable<Payment> GetPaymentsByHouse(int houseId)
+        {
+            return _paymentService.GetPaymentsByHouse(houseId);
+        }
+
+        public IQueryable<Payment> GetPaymentsByUser(int userId)
+        {
+            return _paymentService.GetPaymentsByUser(userId);
+        }
     }
 }

@@ -7,8 +7,8 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs
 {
     public class CustomResponseDto<T>
     {
-        [JsonIgnore]
         public T Data { get; set; }
+        [JsonIgnore]
         public int StatusCode { get; set; }
         public List<string> Errors { get; set; }
         public static CustomResponseDto<T> Success(int statusCode, T data)

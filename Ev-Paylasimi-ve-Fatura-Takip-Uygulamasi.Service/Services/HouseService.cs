@@ -10,10 +10,10 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
 {
     public class HouseService : Service<House>, IHouseService
     {
-        private readonly IHouseMemberRepository _houseMemberRepository;
-        public HouseService(IGenericRepository<House> repository, IUnitOfWorks unitOfWorks, IHouseMemberRepository houseMemberRepository) : base(repository, unitOfWorks)
+        private readonly IHouseRepository _houseRepository;
+        public HouseService(IGenericRepository<House> repository, IUnitOfWorks unitOfWorks, IHouseRepository houseRepository) : base(repository, unitOfWorks)
         {
-            _houseMemberRepository = houseMemberRepository;
+            _houseRepository = houseRepository;
         }
     }
 }

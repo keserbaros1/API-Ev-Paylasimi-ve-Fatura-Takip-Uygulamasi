@@ -7,5 +7,6 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Services
 {
     public interface IExpenseService: IService<Expense>
     {
+        IQueryable<Expense> GetByHouse(int houseId);
     }
 }

@@ -19,13 +19,14 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
             _unitOfWorks = unitOfWorks;
         }
 
-        public virtual async Task AddAsync(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
             entity.CreateDate = DateTime.Now;
             entity.UpdateDate = DateTime.Now;
 
             await _repository.AddAsync(entity);
             await _unitOfWorks.CommitAsync();
+            return entity;
         }
 
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)

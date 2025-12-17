@@ -7,5 +7,8 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Services
 {
     public interface IPaymentService: IService<Payment>
     {
+        IQueryable<Payment> GetPaymentsByHouse(int houseId);
+        IQueryable<Payment> GetPaymentsByUser(int userId);
+
     }
 }

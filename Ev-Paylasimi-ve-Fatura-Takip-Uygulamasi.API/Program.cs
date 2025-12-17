@@ -6,6 +6,7 @@ using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Modules;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Mappings;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();

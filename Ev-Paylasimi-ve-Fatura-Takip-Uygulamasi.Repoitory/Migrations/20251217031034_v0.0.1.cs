@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class v001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -91,8 +91,8 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HouseID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false),
+                    HouseId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -104,14 +104,14 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
                 {
                     table.PrimaryKey("PK_HouseMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HouseMembers_Houses_HouseID",
-                        column: x => x.HouseID,
+                        name: "FK_HouseMembers_Houses_HouseId",
+                        column: x => x.HouseId,
                         principalTable: "Houses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HouseMembers_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_HouseMembers_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -202,14 +202,14 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HouseMembers_HouseID",
+                name: "IX_HouseMembers_HouseId",
                 table: "HouseMembers",
-                column: "HouseID");
+                column: "HouseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HouseMembers_UserID",
+                name: "IX_HouseMembers_UserId",
                 table: "HouseMembers",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_HouseId",

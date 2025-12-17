@@ -7,5 +7,6 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Repositories
 {
     public interface IExpenseShareRepository:IGenericRepository<ExpenseShare>
     {
+        IQueryable<ExpenseShare> GetExpenseSharesByUser(int userId);
     }
 }

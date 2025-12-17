@@ -15,5 +15,15 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
         {
             _houseMemberRepository = houseMemberRepository;
         }
+
+        public IQueryable<House> GetHousesByUser(int userId)
+        {
+            return _houseMemberRepository.GetHousesByUser(userId);
+        }
+
+        public IQueryable<HouseMember> GetMembersByHouse(int houseId)
+        {
+            return _houseMemberRepository.GetMembersByHouse(houseId);
+        }
     }
 }

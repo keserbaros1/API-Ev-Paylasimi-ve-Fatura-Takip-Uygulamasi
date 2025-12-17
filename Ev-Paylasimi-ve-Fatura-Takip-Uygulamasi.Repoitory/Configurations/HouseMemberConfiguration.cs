@@ -19,13 +19,13 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Configurations
             // HouseMember -> House (Many-to-One)
             builder.HasOne(hm => hm.House)
                 .WithMany(h => h.HouseMembers)
-                .HasForeignKey(hm => hm.HouseID)
+                .HasForeignKey(hm => hm.HouseId)
                 .OnDelete(DeleteBehavior.Cascade);  // House silindiğinde HouseMember da silinsin
 
             // HouseMember -> User (Many-to-One)
             builder.HasOne(hm => hm.User)
                 .WithMany(u => u.HouseMembers)
-                .HasForeignKey(hm => hm.UserID)
+                .HasForeignKey(hm => hm.UserId)
                 .OnDelete(DeleteBehavior.Restrict); // User silindiğinde HouseMember silinmesin
         }
     }

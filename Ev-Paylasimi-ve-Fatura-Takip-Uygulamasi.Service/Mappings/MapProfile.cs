@@ -9,7 +9,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Mappings
 {
     public class MapProfile : Profile
     {
-        protected MapProfile()
+        public MapProfile()
         {
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Expense, ExpenseDto>().ReverseMap();

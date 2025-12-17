@@ -15,5 +15,10 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
         {
             _expenseShareRepository = expenseShareRepository;
         }
+
+        public IQueryable<ExpenseShare> GetExpenseSharesByUser(int userId)
+        {
+            return _expenseShareRepository.GetExpenseSharesByUser(userId);
+        }
     }
 }

@@ -167,7 +167,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HouseID")
+                    b.Property<int>("HouseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Role")
@@ -185,14 +185,14 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HouseID");
+                    b.HasIndex("HouseId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("HouseMembers");
                 });
@@ -328,13 +328,13 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Migrations
                 {
                     b.HasOne("Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models.House", "House")
                         .WithMany("HouseMembers")
-                        .HasForeignKey("HouseID")
+                        .HasForeignKey("HouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models.User", "User")
                         .WithMany("HouseMembers")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

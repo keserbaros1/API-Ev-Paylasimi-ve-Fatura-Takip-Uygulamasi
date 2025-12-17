@@ -7,5 +7,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Repositories
 {
     public interface IHouseMemberRepository:IGenericRepository<HouseMember>
     {
+        IQueryable<House> GetHousesByUser(int userId);
+        IQueryable<HouseMember> GetMembersByHouse(int houseId);
     }
 }
