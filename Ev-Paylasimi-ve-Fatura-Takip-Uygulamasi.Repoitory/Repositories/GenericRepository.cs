@@ -22,6 +22,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Repositories
 
         public async Task AddAsync(T entity)
         {
+            entity.Status = true;
             await _dbSet.AddAsync(entity);
         }
 

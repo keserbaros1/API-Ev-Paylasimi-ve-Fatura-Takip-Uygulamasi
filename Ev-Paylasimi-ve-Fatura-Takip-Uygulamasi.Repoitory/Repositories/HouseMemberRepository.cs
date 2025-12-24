@@ -28,6 +28,24 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory.Repositories
             return _context.HouseMembers
                 .Where(hm => hm.HouseId == houseId);
         }
+
+        public async Task<string> GetUserRoleInHouseAsync(int userId, int houseId)
+        {
+            var member = await Where(hm => hm.UserId == userId && hm.HouseId == houseId)
+                .FirstOrDefaultAsync();
+
+            return member?.Role;
+        }
+
+        public async Task<bool> IsUserAdminOfHouseAsync(int userId, int houseId)
+        {
+            return await AnyAsync(hm => hm.UserId == userId && hm.HouseId == houseId && hm.Role == "Admin");
+        }
+
+        public async Task<bool> IsUserMemberOfHouseAsync(int userId, int houseId)
+        {
+            return await AnyAsync(hm => hm.UserId == userId && hm.HouseId == houseId);
+        }
     }
 
 }

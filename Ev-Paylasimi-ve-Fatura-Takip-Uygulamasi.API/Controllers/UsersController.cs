@@ -4,6 +4,8 @@ using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs.UpdateDTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Services;
+using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Hashing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +31,19 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         //    var dashboard = await _dashboardService.GetDashboardAsync(userId);
         //    return CreateActionResult(CustomResponseDto<UserDashboardDto>.Success(200, dashboard));
         //}
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        {
+            Token token = await _userService.Login(userLoginDto);
+
+            if (token == null)
+            {
+               return CreateActionResult(CustomResponseDto<NoContentDto>.Fail(401, "Eposta veya parola hatalı"));
+            }
+
+             return CreateActionResult(CustomResponseDto<Token>.Success(200, token));
+        }
 
 
         [HttpGet]
@@ -69,12 +84,19 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(UserDto userDto)
         {
-            int userId = 1;
+            int userId = GetUserFromToken();
 
             var processedEntity = _mapper.Map<User>(userDto);
 
             processedEntity.UpdateBy = userId;
             processedEntity.CreateBy = userId;
+
+            byte[] passwordHash, passwordSalt;
+            
+            HashingHelper.CreatePasswordHash(userDto.Password, out passwordHash, out passwordSalt);
+
+            processedEntity.PasswordHash = passwordHash;
+            processedEntity.PasswordSalt = passwordSalt;
 
             var user = await _userService.AddAsync(processedEntity);
 

@@ -25,5 +25,20 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
         {
             return _houseMemberRepository.GetMembersByHouse(houseId);
         }
+
+        public Task<string> GetUserRoleInHouseAsync(int userId, int houseId)
+        {
+            return _houseMemberRepository.GetUserRoleInHouseAsync(userId, houseId);
+        }
+
+        public Task<bool> IsUserAdminOfHouseAsync(int userId, int houseId)
+        {
+            return _houseMemberRepository.IsUserAdminOfHouseAsync(userId, houseId);
+        }
+
+        public Task<bool> IsUserMemberOfHouseAsync(int userId, int houseId)
+        {
+            return _houseMemberRepository.IsUserMemberOfHouseAsync(userId, houseId);
+        }
     }
 }

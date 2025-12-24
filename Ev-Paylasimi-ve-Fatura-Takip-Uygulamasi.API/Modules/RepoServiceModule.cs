@@ -27,7 +27,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Modules
             builder.RegisterType<UnitOfWorks>()
                 .As<IUnitOfWorks>();
 
-            // register type token handler
+            builder.RegisterType<TokenHandler>().As<ITokenHandler>();
 
             var apiAssembly = Assembly.GetExecutingAssembly();
             var repoAssembly = Assembly.GetAssembly(typeof(AppDbContext));

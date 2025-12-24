@@ -4,6 +4,7 @@ using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs.UpdateDTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> All()
         {

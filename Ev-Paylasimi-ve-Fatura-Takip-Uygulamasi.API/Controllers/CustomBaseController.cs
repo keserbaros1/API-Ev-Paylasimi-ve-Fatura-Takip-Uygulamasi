@@ -1,6 +1,7 @@
 ﻿using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
 {
@@ -20,6 +21,20 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             {
                 StatusCode = response.StatusCode
             };
+        }
+
+
+        [NonAction]
+        public int GetUserFromToken() 
+        {
+            string requestHeader = Request.Headers["Authorization"];
+            string jwt = requestHeader?.Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadToken(jwt) as JwtSecurityToken;
+            string userId = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "nameid")?.Value;
+            int id = Int32.Parse(userId);
+            return id == 0 ? 0 : id;
+
         }
     }
 }

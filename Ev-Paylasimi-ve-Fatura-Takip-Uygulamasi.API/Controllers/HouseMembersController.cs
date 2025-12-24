@@ -5,6 +5,7 @@ using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs.UpdateDTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Services;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         [HttpGet("MyHouses")]
         public async Task<IActionResult> MyHouses()
         {
-            int userId = 1; // token'dan gelecek
+            int userId = GetUserFromToken();
             var houses = _houseMemberService.GetHousesByUser(userId);
             var dtos = _mapper.Map<List<HouseDto>>(houses);
             return CreateActionResult(CustomResponseDto<List<HouseDto>>.Success(200, dtos));
@@ -67,7 +68,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             // get houseMember from token
-            int houseMemberId = 1;
+            int houseMemberId = GetUserFromToken();
 
             var houseMember = await _houseMemberService.GetByIdAsync(id);
             houseMember.UpdateBy = houseMemberId;
@@ -80,7 +81,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(HouseMemberDto houseMemberDto)
         {
-            int houseMemberId = 1;
+            int houseMemberId = GetUserFromToken();
 
             var processedEntity = _mapper.Map<HouseMember>(houseMemberDto);
 
@@ -97,7 +98,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(HouseMemberUpdateDto houseMemberDto)
         {
-            int houseMemberId = 1;
+            int houseMemberId = GetUserFromToken();
             var currentHouseMember = await _houseMemberService.GetByIdAsync(houseMemberDto.Id);
 
             currentHouseMember.UpdateBy = houseMemberId;
