@@ -24,14 +24,8 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             _mapper = mapper;
         }
 
-        //[HttpGet("Dashboard")]
-        //public async Task<IActionResult> Dashboard()
-        //{
-        //    int userId = 1;
-        //    var dashboard = await _dashboardService.GetDashboardAsync(userId);
-        //    return CreateActionResult(CustomResponseDto<UserDashboardDto>.Success(200, dashboard));
-        //}
 
+        // Kullanıcı girişi yapar ve token döner
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(UserLoginDto userLoginDto)
         {
@@ -46,6 +40,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         }
 
 
+        // Tüm kullanıcıları listeler
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -54,9 +49,9 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
 
             return CreateActionResult(CustomResponseDto<List<UserDto>>.Success(200, dtos));
         }
-        // pagination
 
-        // böyle bir id var mı diye ilk soruyor yoksa direkt 404 döndürüyor 
+
+        // Id'ye göre kullanıcı detayını getirir
         [ServiceFilter(typeof(NotFoundFilter<User>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -66,12 +61,13 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<UserDto>.Success(200, userDto));
         }
 
+        // Belirtilen kullanıcıyı siler (Soft delete)
         [ServiceFilter(typeof(NotFoundFilter<User>))]
         [HttpGet("[action]")]
         public async Task<IActionResult> Remove(int id)
         {
             // get user from token
-            int userId = 1;
+            int userId = GetUserFromToken();
 
             var user = await _userService.GetByIdAsync(id);
             user.UpdateBy = userId;
@@ -81,6 +77,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
 
+        // Yeni bir kullanıcı oluşturur
         [HttpPost]
         public async Task<IActionResult> Save(UserDto userDto)
         {
@@ -105,10 +102,13 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<UserDto>.Success(201, userResponseDto));
         }
 
+
+
+        // Mevcut bir kullanıcıyı günceller
         [HttpPut]
         public async Task<IActionResult> Update(UserUpdateDto userDto)
         {
-            int userId = 1;
+            int userId = GetUserFromToken();
             var currentUser = await _userService.GetByIdAsync(userDto.Id);
 
             currentUser.UpdateBy = userId;

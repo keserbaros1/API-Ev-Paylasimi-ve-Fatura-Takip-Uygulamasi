@@ -11,5 +11,6 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models
         public required double ShareAmount{ get; set; }
         public Expense Expense { get; set; }
         public User User { get; set; }
+        public ICollection<Payment> Payments { get; set; }
     }
 }

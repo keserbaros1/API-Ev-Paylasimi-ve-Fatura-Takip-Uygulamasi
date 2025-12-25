@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
 {
@@ -25,16 +26,29 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
 
 
         [NonAction]
-        public int GetUserFromToken() 
-        {
-            string requestHeader = Request.Headers["Authorization"];
-            string jwt = requestHeader?.Replace("Bearer ", "");
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadToken(jwt) as JwtSecurityToken;
-            string userId = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "nameid")?.Value;
-            int id = Int32.Parse(userId);
-            return id == 0 ? 0 : id;
+        public int GetUserFromToken()
+        //{
+        //    string requestHeader = Request.Headers["Authorization"];
+        //    string jwt = requestHeader?.Replace("Bearer ", "");
+        //    var handler = new JwtSecurityTokenHandler();
+        //    var jwtSecurityToken = handler.ReadToken(jwt) as JwtSecurityToken;
+        //    string userId = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "nameid")?.Value;
+        //    int id = Int32.Parse(userId);
+        //    return id == 0 ? 0 : id;
 
+        //}
+        {
+            // Manuel parse işlemi yerine Framework'ün doğruladığı User nesnesini kullandık.
+            // Bu yöntem daha güvenlidir ve [Authorize] attribute'u ile uyumlu çalışır.
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    return userId;
+                }
+            }
+            return 0;
         }
     }
 }

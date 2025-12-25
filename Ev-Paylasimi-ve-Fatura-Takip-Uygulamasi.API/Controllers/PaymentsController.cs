@@ -4,6 +4,7 @@ using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs.UpdateDTOs;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Models;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             _mapper = mapper;
         }
 
-        // Belirli bir evin ödemeleri
+        // Belirli bir evin ödemelerini getirir
         [HttpGet("ByHouse/{houseId}")]
         public async Task<IActionResult> ByHouse(int houseId)
         {
@@ -31,18 +32,19 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<List<PaymentDto>>.Success(200, dtos));
         }
 
-        // Kullanıcının yaptığı ödemeler
+        // Kullanıcının yaptığı ödemeleri getirir
+        [Authorize]
         [HttpGet("MyPayments")]
         public async Task<IActionResult> MyPayments()
         {
-            int userId = 1; // token'dan gelecek
+            int userId = GetUserFromToken();
             var payments = _paymentService.GetPaymentsByUser(userId);
             var dtos = _mapper.Map<List<PaymentDto>>(payments);
             return CreateActionResult(CustomResponseDto<List<PaymentDto>>.Success(200, dtos));
         }
 
 
-
+        // Tüm ödemeleri listeler
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -53,7 +55,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         }
         // pagination
 
-        // böyle bir id var mı diye ilk soruyor yoksa direkt 404 döndürüyor 
+        // Id'ye göre ödeme detayını getirir
         [ServiceFilter(typeof(NotFoundFilter<Payment>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -63,12 +65,13 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<PaymentDto>.Success(200, paymentDto));
         }
 
+        // Belirtilen ödemeyi siler (Soft delete)
         [ServiceFilter(typeof(NotFoundFilter<Payment>))]
         [HttpGet("[action]")]
         public async Task<IActionResult> Remove(int id)
         {
             // get payment from token
-            int paymentId = 1;
+            int paymentId = GetUserFromToken();
 
             var payment = await _paymentService.GetByIdAsync(id);
             payment.UpdateBy = paymentId;
@@ -78,10 +81,11 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
 
+        // Yeni bir ödeme kaydı oluşturur
         [HttpPost]
         public async Task<IActionResult> Save(PaymentDto paymentDto)
         {
-            int paymentId = 1;
+            int paymentId = GetUserFromToken();
 
             var processedEntity = _mapper.Map<Payment>(paymentDto);
 
@@ -95,10 +99,11 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<PaymentDto>.Success(201, paymentResponseDto));
         }
 
+        // Mevcut bir ödemeyi günceller
         [HttpPut]
         public async Task<IActionResult> Update(PaymentUpdateDto paymentDto)
         {
-            int paymentId = 1;
+            int paymentId = GetUserFromToken();
             var currentPayment = await _paymentService.GetByIdAsync(paymentDto.Id);
 
             currentPayment.UpdateBy = paymentId;

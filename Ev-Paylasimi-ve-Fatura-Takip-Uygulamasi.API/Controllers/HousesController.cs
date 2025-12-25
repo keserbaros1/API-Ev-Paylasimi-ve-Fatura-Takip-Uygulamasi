@@ -15,14 +15,17 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
     public class HousesController : CustomBaseController
     {
         private readonly IHouseService _houseService;
+        private readonly IHouseMemberService _houseMemberService;
         private readonly IMapper _mapper;
 
-        public HousesController(IHouseService houseService, IMapper mapper)
+        public HousesController(IHouseService houseService, IMapper mapper, IHouseMemberService houseMemberService)
         {
             _houseService = houseService;
             _mapper = mapper;
+            _houseMemberService = houseMemberService;
         }
 
+        // Tüm evleri listeler
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> All()
@@ -34,7 +37,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         }
         // pagination
 
-        // böyle bir id var mı diye ilk soruyor yoksa direkt 404 döndürüyor 
+        // Id'ye göre ev detayını getirir
         [ServiceFilter(typeof(NotFoundFilter<House>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -44,38 +47,54 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<HouseDto>.Success(200, houseDto));
         }
 
+        // Belirtilen evi siler (Soft delete)
         [ServiceFilter(typeof(NotFoundFilter<House>))]
         [HttpGet("[action]")]
         public async Task<IActionResult> Remove(int id)
         {
-            // get house from token
-            int houseId = 1;
+            int userId = GetUserFromToken();
 
             var house = await _houseService.GetByIdAsync(id);
-            house.UpdateBy = houseId;
+            house.UpdateBy = userId;
 
             _houseService.ChangeStatus(house);
 
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
 
+        // Yeni bir ev kaydı oluşturur
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Save(HouseDto houseDto)
         {
-            int houseId = 1;
+            int userId = GetUserFromToken();
 
             var processedEntity = _mapper.Map<House>(houseDto);
 
-            processedEntity.UpdateBy = houseId;
-            processedEntity.CreateBy = houseId;
+            processedEntity.UpdateBy = userId;
+            processedEntity.CreateBy = userId;
+
 
             var house = await _houseService.AddAsync(processedEntity);
+
+            // Yaratılan eve kullanıcıyı admin olarak ekler
+            var houseMember = new HouseMember
+            {
+                UserId = userId,
+                HouseId = house.Id,
+                Role = "Admin",
+                CreateBy = userId,
+                UpdateBy = userId
+            };
+
+            await _houseMemberService.AddAsync(houseMember);
 
             var houseResponseDto = _mapper.Map<HouseDto>(house);
 
             return CreateActionResult(CustomResponseDto<HouseDto>.Success(201, houseResponseDto));
         }
 
+        // Mevcut bir evi günceller
         [HttpPut]
         public async Task<IActionResult> Update(HouseUpdateDto houseDto)
         {

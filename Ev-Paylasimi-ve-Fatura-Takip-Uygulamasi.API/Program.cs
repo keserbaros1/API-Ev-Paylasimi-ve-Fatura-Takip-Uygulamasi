@@ -6,11 +6,13 @@ using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Modules;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Repoitory;
 using Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // rate limiter
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddFixedWindowLimiter("Fixed", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
+        limiterOptions.Window = TimeSpan.FromSeconds(10); 
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = 2; 
+    });
+});
+
 
 //  add output cache
 
@@ -70,9 +85,13 @@ app.UseHttpsRedirection();
 
 app.UseCustomException();
 
+app.UseRateLimiter();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapControllers().RequireRateLimiting("Fixed");
 
 app.Run();

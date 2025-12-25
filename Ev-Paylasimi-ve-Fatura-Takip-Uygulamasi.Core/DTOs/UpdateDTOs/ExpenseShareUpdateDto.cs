@@ -8,5 +8,6 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Core.DTOs.UpdateDTOs
     {
         public int Id { get; set; }
         public double ShareAmount { get; set; }
+
     }
 }

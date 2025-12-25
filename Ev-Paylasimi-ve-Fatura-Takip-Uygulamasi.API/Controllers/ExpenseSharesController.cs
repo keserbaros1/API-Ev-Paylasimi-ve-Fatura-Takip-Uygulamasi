@@ -22,7 +22,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             _mapper = mapper;
         }
 
-        // Kullanıcının borçları
+        // Kullanıcının borçlarını getirir
         [HttpGet("MyDebts")]
         public async Task<IActionResult> MyDebts()
         {
@@ -33,6 +33,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         }
 
 
+        // Tüm harcama paylaşımlarını listeler
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -45,7 +46,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
 
         // pagination
 
-        // böyle bir id var mı diye ilk soruyor yoksa direkt 404 döndürüyor 
+        // Id'ye göre harcama paylaşım detayını getirir
         [ServiceFilter(typeof(NotFoundFilter<ExpenseShare>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -55,6 +56,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<ExpenseShareDto>.Success(200, expenseShareDto));
         }
 
+        // Belirtilen harcama paylaşımını siler (Soft delete)
         [ServiceFilter(typeof(NotFoundFilter<ExpenseShare>))]
         [HttpGet("[action]")]
         public async Task<IActionResult> Remove(int id)
@@ -70,6 +72,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
 
+        // Yeni bir harcama paylaşımı oluşturur
         [HttpPost]
         public async Task<IActionResult> Save(ExpenseShareDto expenseShareDto)
         {
@@ -87,6 +90,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<ExpenseShareDto>.Success(201, expenseShareResponseDto));
         }
 
+        // Mevcut bir harcama paylaşımını günceller
         [HttpPut]
         public async Task<IActionResult> Update(ExpenseShareUpdateDto expenseShareDto)
         {

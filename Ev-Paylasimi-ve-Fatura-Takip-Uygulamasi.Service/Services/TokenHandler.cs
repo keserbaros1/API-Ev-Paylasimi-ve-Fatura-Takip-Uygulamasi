@@ -46,7 +46,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
                 expires: token.Expiration,
                 claims: SetClaims(user),
                 //claims: SetClaims(user, roles),
-                notBefore: DateTime.Now,
+                notBefore: DateTime.Now.AddMinutes(-1),
                 signingCredentials: signingCredentials
                 );
 
@@ -62,7 +62,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.Service.Services
         public IEnumerable<Claim> SetClaims(User user)
         //public IEnumerable<Claim> SetClaims(User user, List<HouseMember> roles)
         {
-            //Claim claim = new("sub",user.Id.ToString());
+            //Claim claim = new("sub", user.Id.ToString());
             List<Claim> claims = new List<Claim>();
 
             //claims.Add(claim);

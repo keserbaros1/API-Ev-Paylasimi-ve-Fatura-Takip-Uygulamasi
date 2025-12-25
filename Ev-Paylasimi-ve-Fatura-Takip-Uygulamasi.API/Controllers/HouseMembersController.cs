@@ -24,7 +24,8 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             _mapper = mapper;
         }
 
-        // Kullanıcının üye olduğu evler
+        // Kullanıcının üye olduğu evleri getirir
+        [Authorize]
         [HttpGet("MyHouses")]
         public async Task<IActionResult> MyHouses()
         {
@@ -34,7 +35,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<List<HouseDto>>.Success(200, dtos));
         }
 
-        // Belirli evin üyeleri
+        // Belirli evin üyelerini getirir
         [HttpGet("ByHouse/{houseId}")]
         public async Task<IActionResult> Members(int houseId)
         {
@@ -43,6 +44,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<List<HouseMemberDto>>.Success(200, dtos));
         }
 
+        // Tüm ev üyelerini listeler
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -53,7 +55,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         }
         // pagination
 
-        // böyle bir id var mı diye ilk soruyor yoksa direkt 404 döndürüyor 
+        // Id'ye göre ev üyesi detayını getirir
         [ServiceFilter(typeof(NotFoundFilter<HouseMember>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -63,6 +65,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<HouseMemberDto>.Success(200, houseMemberDto));
         }
 
+        // Belirtilen ev üyesini siler (Soft delete)
         [ServiceFilter(typeof(NotFoundFilter<HouseMember>))]
         [HttpGet("[action]")]
         public async Task<IActionResult> Remove(int id)
@@ -78,6 +81,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
 
+        // Yeni bir ev üyesi kaydı oluşturur
         [HttpPost]
         public async Task<IActionResult> Save(HouseMemberDto houseMemberDto)
         {
@@ -95,6 +99,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<HouseMemberDto>.Success(201, houseMemberResponseDto));
         }
 
+        // Mevcut bir ev üyesini günceller
         [HttpPut]
         public async Task<IActionResult> Update(HouseMemberUpdateDto houseMemberDto)
         {

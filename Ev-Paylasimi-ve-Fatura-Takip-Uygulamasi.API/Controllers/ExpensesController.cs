@@ -22,7 +22,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             _mapper = mapper;
         }
 
-        // Belirli bir evin harcamaları
+        // Belirli bir evin harcamalarını getirir
         [HttpGet("ByHouse/{houseId}")]
         public async Task<IActionResult> ByHouse(int houseId)
         {
@@ -31,6 +31,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<List<ExpenseDto>>.Success(200, dtos));
         }
 
+        // Tüm harcamaları listeler
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -41,7 +42,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
         }
         // pagination
 
-        // böyle bir id var mı diye ilk soruyor yoksa direkt 404 döndürüyor 
+        // Id'ye göre harcama detayını getirir
         [ServiceFilter(typeof(NotFoundFilter<Expense>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -51,6 +52,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<ExpenseDto>.Success(200, expenseDto));
         }
 
+        // Belirtilen harcamayı siler (Soft delete)
         [ServiceFilter(typeof(NotFoundFilter<Expense>))]
         [HttpGet("[action]")]
         public async Task<IActionResult> Remove(int id)
@@ -66,6 +68,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
 
+        // Yeni bir harcama kaydı oluşturur
         [HttpPost]
         public async Task<IActionResult> Save(ExpenseDto expenseDto)
         {
@@ -83,6 +86,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
             return CreateActionResult(CustomResponseDto<ExpenseDto>.Success(201, expenseResponseDto));
         }
 
+        // Mevcut bir harcamayı günceller
         [HttpPut]
         public async Task<IActionResult> Update(ExpenseUpdateDto expenseDto)
         {
