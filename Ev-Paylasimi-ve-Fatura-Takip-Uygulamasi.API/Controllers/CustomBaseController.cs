@@ -38,8 +38,7 @@ namespace Ev_Paylasimi_ve_Fatura_Takip_Uygulamasi.API.Controllers
 
         //}
         {
-            // Manuel parse işlemi yerine Framework'ün doğruladığı User nesnesini kullandık.
-            // Bu yöntem daha güvenlidir ve [Authorize] attribute'u ile uyumlu çalışır.
+            // Framework'ün doğruladığı User nesnesini kullandık.
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
